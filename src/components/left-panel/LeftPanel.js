@@ -1,35 +1,19 @@
 import React, { Component } from 'react'
 
-import Select from 'react-select';
-import 'react-select/dist/react-select.css';
+import RegionLevel from './region-level/RegionLevel';
+import Region from './region/Region';
+import ScenarioCollection from './scenario-collection/ScenarioCollection';
+
+
 import './leftpanel.scss';
 
 class LeftPanel extends Component {
 
-    state = {
-        alueTaso: '',
-        alue: '',
-        skenaarioKokoelma: ''
-    }
+    constructor(props){
 
-    alueTasoChanged = (selectedOption) => {
-        this.setState({ alueTaso: selectedOption });
-        if(selectedOption !== null){
-            console.log(`Selected: ${selectedOption.label}`);
-        }
-    }
+        super(props);
 
-    alueChanged = (selectedOption) => {
-        this.setState({ alue: selectedOption });
-        if(selectedOption !== null){
-            console.log(`Selected: ${selectedOption.label}`);
-        }
-    }
-
-    skenaarioKokoelmaChanged = (selectedOption) => {
-        this.setState({ skenaarioKokoelma: selectedOption });
-        if(selectedOption !== null){
-            console.log(`Selected: ${selectedOption.label}`);
+        this.state = {
         }
     }
 
@@ -37,39 +21,19 @@ class LeftPanel extends Component {
         return (
             <div className="leftpanel-container">
                 <h3 className="header-spacing-panels">Skenaarioiden valinta</h3>
-                <h4>Aluetaso</h4>
-                    <Select
-                        name=""
-                        className="max"
-                        value={this.state.alueTaso}
-                        onChange={this.alueTasoChanged}
-                        options={[
-                            { value: 'one', label: 'One' },
-                            { value: 'two', label: 'Two' },
-                        ]}
-                    />
-                <h4>Alue</h4>
-                    <Select
-                        name=""
-                        className="max"
-                        value={this.state.alue}
-                        onChange={this.alueChanged}
-                        options={[
-                            { value: 'one', label: 'One' },
-                            { value: 'two', label: 'Two' },
-                        ]}
-                    />
-                <h4>Skenaariokokoelma</h4>
-                    <Select
-                        name=""
-                        className="max"
-                        value={this.state.skenaarioKokoelma}
-                        onChange={this.skenaarioKokoelmaChanged}
-                        options={[
-                            { value: 'one', label: 'One' },
-                            { value: 'two', label: 'Two' },
-                        ]}
-                    />
+
+                <div className="region-level">
+                    <RegionLevel />
+                </div>
+
+                <div className="region">
+                    <Region />
+                </div>
+
+                <div className="region-level">
+                    <ScenarioCollection />
+                </div>
+
                 <h4>Skenaariot</h4>
                 <h4>Ajankohta</h4>
             </div>

@@ -1,5 +1,7 @@
+@import './variables.scss';
+
 .App {
-  background: linear-gradient(rgb(221, 252, 221), rgb(105, 199, 105), rgb(221, 252, 221));
+  background: linear-gradient($bg-color-first, $bg-color-second, $bg-color-third);
   height: 100vh;
   overflow: auto;
 }

@@ -1,5 +1,7 @@
+@import '../../variables.scss';
+
 .top-header {
     background-color: transparent;
-    color: rgb(50, 63, 160);
+    color: $blue-font;
     text-align: center;
-  }
+}
