@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
-import './leftpanel.css';
+import './leftpanel.scss';
 
 class LeftPanel extends Component {
 

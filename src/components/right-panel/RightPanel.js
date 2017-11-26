@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import './rightpanel.css';
+import './rightpanel.scss';
 
 class RightPanel extends Component {
     render () {

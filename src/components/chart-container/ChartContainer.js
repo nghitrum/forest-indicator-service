@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import './chartcontainer.css';
+import './chartcontainer.scss';
 
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
