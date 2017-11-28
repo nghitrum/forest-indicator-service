@@ -7,7 +7,7 @@ function getRegionLevels() {
     axios
       .get("http://melatupa.azurewebsites.net/regionLevels")
       .then(results => {
-        console.log(results.data);
+        //console.log(results.data);
         resolve(results.data);
       })
       .catch(error => {
