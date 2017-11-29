@@ -1,48 +1,34 @@
 import React, { Component } from "react";
 import Select from "react-select";
 import "react-select/dist/react-select.css";
-import ForestData from "../../../data/ForestData";
 class RegionLevels extends Component {
   constructor(props) {
     super(props);
-    this.state = { value: "" };
 
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange = value => {
     if (value !== null) {
-      this.setState({ value });
+      this.props.regionalLevelData(value);
     } else {
-      this.setState({ value: "" });
+      this.props.regionalLevelData("");
     }
   };
 
-  bindData() {
-    let list = [];
-    ForestData.getRegionLevels().then(function(result) {
-      result.map(element => {
-        list.push({
-          value: element.id,
-          label: element.name
-        });
-      });
-    });
-
-    return list;
-  }
-
   render() {
-    const regionLevelList = this.bindData();
+    const regionalLevel = this.props.regionalLevel;
+    const regionalLevelList = this.props.regionalLevelList; 
+    
     return (
       <div>
         <h4>Aluetaso</h4>
         <Select
           placeholder="Select region level"
           className="max"
-          value={this.state.value}
+          value={regionalLevel}
           onChange={this.handleChange}
-          options={regionLevelList}
+          options={regionalLevelList}
         />
       </div>
     );
