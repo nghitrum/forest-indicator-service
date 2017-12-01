@@ -99,7 +99,7 @@ class App extends Component {
   }
 
   render() {
-    //  console.log("App.js", this.state);
+    console.log("App.js", this.state);
     return (
       <div className="container-fluid App">
         <Header />
