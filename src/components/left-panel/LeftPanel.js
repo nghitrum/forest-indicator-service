@@ -4,71 +4,16 @@ import RegionLevel from "./region-level/RegionLevel";
 import Region from "./region/Region";
 import ScenarioCollection from "./scenario-collection/ScenarioCollection";
 
-import ForestData from "../../data/ForestData";
-
 import "./leftpanel.scss";
 
 class LeftPanel extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      regionalLevel: "",
-      regionalLevelList: [],
-      region: "",
-      regionList: []
-    };
-
-    this.handleRegionalLevelChange = this.handleRegionalLevelChange.bind(this);
-    this.handleRegionChange = this.handleRegionChange.bind(this);
-  }
-
-  bindRegionalLevelData() {
-    let list = [];
-    ForestData.getRegionLevels().then(function(result) {
-      result.map(element => {
-        list.push({
-          value: element.id,
-          label: element.name
-        });
-      });
-    });
-
-    return list;
-  }
-
-  bindRegionData(regionalLevel) {
-    let list = [];
-    ForestData.getRegion(regionalLevel.value).then(function(result) {
-      result.map(region => {
-        list.push({
-          value: region.id,
-          label: region.name
-        });
-      });
-    });
-    return list;
-  }
-
-  handleRegionalLevelChange(regionalLevel) {
-    this.setState({
-      regionalLevel: regionalLevel,
-      regionList: this.bindRegionData(regionalLevel),
-      region: ""
-    });
-  }
-
-  handleRegionChange(value) {
-    this.setState({
-      region: value
-    });
-  }
-
   render() {
-    const regionalLevel = this.state.regionalLevel;
-    const regionalLevelList = this.bindRegionalLevelData();
-    const regionList = this.state.regionList;
-    const region = this.state.region;
+    const regionalLevel = this.props.regionalLevel;
+    const regionalLevelList = this.props.regionalLevelList;
+    const regionList = this.props.regionList;
+    const region = this.props.region;
+    const regionalLevelData = this.props.handleRegionalLevelChange;
+    const regionData = this.props.handleRegionChange;
 
     return (
       <div className="leftpanel-container">
@@ -78,7 +23,7 @@ class LeftPanel extends Component {
           <RegionLevel
             regionalLevelList={regionalLevelList}
             regionalLevel={regionalLevel}
-            regionalLevelData={this.handleRegionalLevelChange}
+            regionalLevelData={regionalLevelData}
           />
         </div>
 
@@ -87,7 +32,7 @@ class LeftPanel extends Component {
             regionalLevel={regionalLevel}
             regionList={regionList}
             region={region}
-            regionData={this.handleRegionChange}
+            regionData={regionData}
           />
         </div>
 
