@@ -18,11 +18,17 @@ class App extends Component {
       regionalLevel: "",
       regionalLevelList: [],
       region: "",
-      regionList: []
+      regionList: [],
+
+      scenarioCollection: "",
+      scenarioCollectionList: []
     };
 
     this.handleRegionalLevelChange = this.handleRegionalLevelChange.bind(this);
     this.handleRegionChange = this.handleRegionChange.bind(this);
+    this.handleScenarioCollectionChange = this.handleScenarioCollectionChange.bind(
+      this
+    );
   }
 
   bindRegionalLevelData() {
@@ -41,13 +47,27 @@ class App extends Component {
 
   bindRegionData(regionalLevel) {
     let list = [];
-    ForestData.getRegion(regionalLevel.value).then(function(result) {
-      result.map(region => {
-        list.push({
-          value: region.id,
-          label: region.name,
-          ...region
+    if (regionalLevel !== "") {
+      ForestData.getRegion(regionalLevel.value).then(function(result) {
+        result.map(region => {
+          list.push({
+            value: region.id,
+            label: region.name,
+            ...region
+          });
         });
+      });
+    }
+    return list;
+  }
+
+  bindScenarioCollectionsData(region) {
+    let list = [];
+    region.scenarioCollections.map(element => {
+      list.push({
+        value: element.id,
+        label: element.name,
+        ...element
       });
     });
     return list;
@@ -59,16 +79,27 @@ class App extends Component {
       regionList: this.bindRegionData(regionalLevel),
       region: ""
     });
+
+    this.handleRegionChange("");
   }
 
   handleRegionChange(value) {
     this.setState({
-      region: value
+      region: value,
+      scenarioCollection: "",
+      scenarioCollectionList:
+        value !== "" ? this.bindScenarioCollectionsData(value) : []
+    });
+  }
+
+  handleScenarioCollectionChange(value) {
+    this.setState({
+      scenarioCollection: value
     });
   }
 
   render() {
-   //console.log(this.state);
+    //  console.log("App.js", this.state);
     return (
       <div className="container-fluid App">
         <Header />
@@ -77,10 +108,13 @@ class App extends Component {
           <LeftPanel
             regionalLevelList={this.bindRegionalLevelData()}
             regionalLevel={this.state.regionalLevel}
+            handleRegionalLevelChange={this.handleRegionalLevelChange}
             region={this.state.region}
             regionList={this.state.regionList}
-            handleRegionalLevelChange={this.handleRegionalLevelChange}
             handleRegionChange={this.handleRegionChange}
+            scenarioCollection={this.state.scenarioCollection}
+            scenarioCollectionList={this.state.scenarioCollectionList}
+            handleScenarioCollectionChange={this.handleScenarioCollectionChange}
           />
         </div>
 
