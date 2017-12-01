@@ -10,10 +10,15 @@ class LeftPanel extends Component {
   render() {
     const regionalLevel = this.props.regionalLevel;
     const regionalLevelList = this.props.regionalLevelList;
-    const regionList = this.props.regionList;
-    const region = this.props.region;
     const regionalLevelData = this.props.handleRegionalLevelChange;
+
+    const region = this.props.region;
+    const regionList = this.props.regionList;
     const regionData = this.props.handleRegionChange;
+
+    const scenarioCollection = this.props.scenarioCollection;
+    const scenarioCollectionList = this.props.scenarioCollectionList;
+    const scenarioCollectionData = this.props.handleScenarioCollectionChange;
 
     return (
       <div className="leftpanel-container">
@@ -29,7 +34,6 @@ class LeftPanel extends Component {
 
         <div className="region">
           <Region
-            regionalLevel={regionalLevel}
             regionList={regionList}
             region={region}
             regionData={regionData}
@@ -37,7 +41,11 @@ class LeftPanel extends Component {
         </div>
 
         <div className="region-level">
-          <ScenarioCollection />
+          <ScenarioCollection
+            scenarioCollectionList={scenarioCollectionList}
+            scenarioCollection={scenarioCollection}
+            scenarioCollectionData={scenarioCollectionData}
+          />
         </div>
 
         <h4>Skenaariot</h4>

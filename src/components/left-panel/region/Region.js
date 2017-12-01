@@ -29,7 +29,6 @@ class Region extends Component {
   }
 
   render() {
-    const regionalLevel = this.props.regionalLevel;
     const regionList = this.props.regionList;
     const region = this.props.region;
 
