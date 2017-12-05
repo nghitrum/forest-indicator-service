@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import RegionLevel from "./region-level/RegionLevel";
 import Region from "./region/Region";
 import ScenarioCollection from "./scenario-collection/ScenarioCollection";
+import Scenarios from "./scenarios/Scenarios";
 
 import "./leftpanel.scss";
 
@@ -19,6 +20,10 @@ class LeftPanel extends Component {
     const scenarioCollection = this.props.scenarioCollection;
     const scenarioCollectionList = this.props.scenarioCollectionList;
     const scenarioCollectionData = this.props.handleScenarioCollectionChange;
+
+    const scenarios = this.props.scenarios;
+    //  console.log(scenarios);
+    //  const timePeriods = this.props.timePeriods;
 
     return (
       <div className="leftpanel-container">
@@ -48,7 +53,9 @@ class LeftPanel extends Component {
           />
         </div>
 
-        <h4>Skenaariot</h4>
+        <div className="scenarios">
+          <Scenarios scenarios={scenarios} />
+        </div>
         <h4>Ajankohta</h4>
       </div>
     );

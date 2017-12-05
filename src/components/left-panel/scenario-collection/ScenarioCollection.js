@@ -5,10 +5,6 @@ import Select from "react-select";
 import "react-select/dist/react-select.css";
 
 class ScenarioCollection extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   state = {
     dropdownLoadBool: true,
     dropdownDisabledBool: true
