@@ -21,7 +21,10 @@ class App extends Component {
       regionList: [],
 
       scenarioCollection: "",
-      scenarioCollectionList: []
+      scenarioCollectionList: [],
+      scenarios: [],
+      timePeriods: [],
+      indicators: []
     };
 
     this.handleRegionalLevelChange = this.handleRegionalLevelChange.bind(this);
@@ -73,11 +76,30 @@ class App extends Component {
     return list;
   }
 
+  bindChartData(scenarioCollection, region) {
+    return new Promise((resolve, reject) => {
+      if (region !== null && scenarioCollection !== null) {
+        ForestData.getScenarionCollection(
+          scenarioCollection.id,
+          region.id
+        ).then(function(result) {
+          resolve(result[0]);
+        });
+      }
+    });
+  }
+
   handleRegionalLevelChange(regionalLevel) {
     this.setState({
       regionalLevel: regionalLevel,
       regionList: this.bindRegionData(regionalLevel),
-      region: ""
+      region: "",
+
+      scenarioCollection: "",
+      scenarioCollectionList: [],
+      scenarios: [],
+      timePeriods: [],
+      indicators: []
     });
 
     this.handleRegionChange("");
@@ -88,18 +110,28 @@ class App extends Component {
       region: value,
       scenarioCollection: "",
       scenarioCollectionList:
-        value !== "" ? this.bindScenarioCollectionsData(value) : []
+        value !== "" ? this.bindScenarioCollectionsData(value) : [],
+
+      scenarios: [],
+      timePeriods: [],
+      indicators: []
     });
   }
 
   handleScenarioCollectionChange(value) {
-    this.setState({
-      scenarioCollection: value
+    this.bindChartData(value, this.state.region).then(result => {
+      this.setState({
+        scenarioCollection: value,
+        scenarios: result.scenarios,
+        indicators: result.indicatorCategories,
+        timePeriods: result.timePeriods
+      });
     });
   }
 
   render() {
-    console.log("App.js", this.state);
+    //  console.log("App.js", this.state.scenarios);
+    //  console.log("App.js", this.state.timePeriods);
     return (
       <div className="container-fluid App">
         <Header />
@@ -115,6 +147,8 @@ class App extends Component {
             scenarioCollection={this.state.scenarioCollection}
             scenarioCollectionList={this.state.scenarioCollectionList}
             handleScenarioCollectionChange={this.handleScenarioCollectionChange}
+            scenarios={this.state.scenarios}
+            timePeriods={this.state.timePeriods}
           />
         </div>
 
