@@ -56,7 +56,9 @@ class LeftPanel extends Component {
         <div className="scenarios">
           <Scenarios scenarios={scenarios} />
         </div>
-        <h4>Ajankohta</h4>
+        <div className="timeline">
+          <h4>Ajankohta</h4>
+        </div>
       </div>
     );
   }
