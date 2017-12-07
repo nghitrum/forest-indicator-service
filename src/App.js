@@ -36,7 +36,7 @@ class App extends Component {
 
   bindRegionalLevelData() {
     let list = [];
-    ForestData.getRegionLevels().then(function(result) {
+    ForestData.getRegionLevels().then(function (result) {
       result.map(element => {
         list.push({
           value: element.id,
@@ -51,7 +51,7 @@ class App extends Component {
   bindRegionData(regionalLevel) {
     let list = [];
     if (regionalLevel !== "") {
-      ForestData.getRegion(regionalLevel.value).then(function(result) {
+      ForestData.getRegion(regionalLevel.value).then(function (result) {
         result.map(region => {
           list.push({
             value: region.id,
@@ -82,7 +82,7 @@ class App extends Component {
         ForestData.getScenarionCollection(
           scenarioCollection.id,
           region.id
-        ).then(function(result) {
+        ).then(function (result) {
           resolve(result[0]);
         });
       }
@@ -157,7 +157,7 @@ class App extends Component {
         </div>
 
         <div className="col-lg-2">
-          <RightPanel />
+          <RightPanel indicatorCategories={this.state.indicatorCategories} />
         </div>
       </div>
     );
