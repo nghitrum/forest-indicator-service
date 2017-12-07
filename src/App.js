@@ -24,7 +24,7 @@ class App extends Component {
       scenarioCollectionList: [],
       scenarios: [],
       timePeriods: [],
-      indicators: []
+      indicatorCategories: []
     };
 
     this.handleRegionalLevelChange = this.handleRegionalLevelChange.bind(this);
@@ -99,7 +99,7 @@ class App extends Component {
       scenarioCollectionList: [],
       scenarios: [],
       timePeriods: [],
-      indicators: []
+      indicatorCategories: []
     });
 
     this.handleRegionChange("");
@@ -114,7 +114,7 @@ class App extends Component {
 
       scenarios: [],
       timePeriods: [],
-      indicators: []
+      indicatorCategories: []
     });
   }
 
@@ -123,7 +123,7 @@ class App extends Component {
       this.setState({
         scenarioCollection: value,
         scenarios: result.scenarios,
-        indicators: result.indicatorCategories,
+        indicatorCategories: result.indicatorCategories,
         timePeriods: result.timePeriods
       });
     });

@@ -7,7 +7,6 @@ class Scenarios extends Component {
   }
   render() {
     let scenarios = this.props.scenarios;
-    const numbers = [1, 2, 3, 4, 5];
     const listItems = scenarios.map(item => (
       <Checkbox
         key={item.id}

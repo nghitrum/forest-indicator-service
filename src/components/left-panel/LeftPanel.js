@@ -4,6 +4,7 @@ import RegionLevel from "./region-level/RegionLevel";
 import Region from "./region/Region";
 import ScenarioCollection from "./scenario-collection/ScenarioCollection";
 import Scenarios from "./scenarios/Scenarios";
+import TimePeriods from "./time-periods/TimePeriods";
 
 import "./leftpanel.scss";
 
@@ -22,6 +23,7 @@ class LeftPanel extends Component {
     const scenarioCollectionData = this.props.handleScenarioCollectionChange;
 
     const scenarios = this.props.scenarios;
+    const timePeriods = this.props.timePeriods;
     //  console.log(scenarios);
     //  const timePeriods = this.props.timePeriods;
 
@@ -57,7 +59,7 @@ class LeftPanel extends Component {
           <Scenarios scenarios={scenarios} />
         </div>
         <div className="timeline">
-          <h4>Ajankohta</h4>
+          <TimePeriods timePeriods={timePeriods} />
         </div>
       </div>
     );
