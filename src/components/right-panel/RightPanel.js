@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Checkbox from "../general/Checkbox";
 
-
 import './rightpanel.scss';
 
 class RightPanel extends Component {
@@ -10,8 +9,8 @@ class RightPanel extends Component {
 	}
 	render() {
 		let indicatorCategories = this.props.indicatorCategories;
-		const listItems = indicatorCategories.map(item => (
-			<div>
+		const listItems = indicatorCategories.map((item, index) => (
+			<div key={index}>
 				<h4>{item.name}</h4>
 				{item.indicators.map(indicator => (
 					<Checkbox
