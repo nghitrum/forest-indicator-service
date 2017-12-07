@@ -24,7 +24,9 @@ class App extends Component {
       scenarioCollectionList: [],
       scenarios: [],
       timePeriods: [],
-      indicatorCategories: []
+      indicatorCategories: [],
+
+      values: []
     };
 
     this.handleRegionalLevelChange = this.handleRegionalLevelChange.bind(this);
@@ -36,7 +38,7 @@ class App extends Component {
 
   bindRegionalLevelData() {
     let list = [];
-    ForestData.getRegionLevels().then(function (result) {
+    ForestData.getRegionLevels().then(function(result) {
       result.map(element => {
         list.push({
           value: element.id,
@@ -51,7 +53,7 @@ class App extends Component {
   bindRegionData(regionalLevel) {
     let list = [];
     if (regionalLevel !== "") {
-      ForestData.getRegion(regionalLevel.value).then(function (result) {
+      ForestData.getRegion(regionalLevel.value).then(function(result) {
         result.map(region => {
           list.push({
             value: region.id,
@@ -82,7 +84,7 @@ class App extends Component {
         ForestData.getScenarionCollection(
           scenarioCollection.id,
           region.id
-        ).then(function (result) {
+        ).then(function(result) {
           resolve(result[0]);
         });
       }
@@ -99,7 +101,8 @@ class App extends Component {
       scenarioCollectionList: [],
       scenarios: [],
       timePeriods: [],
-      indicatorCategories: []
+      indicatorCategories: [],
+      values: []
     });
 
     this.handleRegionChange("");
@@ -114,7 +117,8 @@ class App extends Component {
 
       scenarios: [],
       timePeriods: [],
-      indicatorCategories: []
+      indicatorCategories: [],
+      values: []
     });
   }
 
@@ -124,13 +128,14 @@ class App extends Component {
         scenarioCollection: value,
         scenarios: result.scenarios,
         indicatorCategories: result.indicatorCategories,
-        timePeriods: result.timePeriods
+        timePeriods: result.timePeriods,
+        values: result.values
       });
     });
   }
 
   render() {
-    //  console.log("App.js", this.state.scenarios);
+    console.log("App.js", this.state.values);
     //  console.log("App.js", this.state.timePeriods);
     return (
       <div className="container-fluid App">
