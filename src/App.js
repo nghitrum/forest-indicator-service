@@ -28,6 +28,7 @@ class App extends Component {
 
       values: [],
       selectedOptions: []
+
     };
 
     this.handleRegionalLevelChange = this.handleRegionalLevelChange.bind(this);
@@ -157,6 +158,7 @@ class App extends Component {
 
   render() {
     //  console.log("App.js", this.state.selectedData);
+
     //  console.log("App.js", this.state.timePeriods);
     return (
       <div className="container-fluid App">
