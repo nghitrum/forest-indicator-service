@@ -27,6 +27,8 @@ class LeftPanel extends Component {
     //  console.log(scenarios);
     //  const timePeriods = this.props.timePeriods;
 
+    const selectedDataChange = this.props.handleSelectedDataChange;
+
     return (
       <div className="leftpanel-container">
         <h3 className="header-spacing-panels">Skenaarioiden valinta</h3>
@@ -56,10 +58,16 @@ class LeftPanel extends Component {
         </div>
 
         <div className="scenarios">
-          <Scenarios scenarios={scenarios} />
+          <Scenarios
+            scenarios={scenarios}
+            selectedDataChange={selectedDataChange}
+          />
         </div>
         <div className="timeline">
-          <TimePeriods timePeriods={timePeriods} />
+          <TimePeriods
+            timePeriods={timePeriods}
+            selectedDataChange={selectedDataChange}
+          />
         </div>
       </div>
     );

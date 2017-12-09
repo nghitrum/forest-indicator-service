@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import Checkbox from "../../general/Checkbox";
 
 class Scenarios extends Component {
-  constructor(props) {
-    super(props);
-  }
+ 
   render() {
     let scenarios = this.props.scenarios;
     const listItems = scenarios.map(item => (
@@ -13,6 +11,8 @@ class Scenarios extends Component {
         id={item.id}
         name={item.name}
         description={item.description}
+        selectedDataChange={this.props.selectedDataChange}
+        dataType="scenario"
       />
     ));
     return (

@@ -29,7 +29,7 @@ class ScenarioCollection extends Component {
   render() {
     const scenarioCollectionList = this.props.scenarioCollectionList;
     const scenarioCollection = this.props.scenarioCollection;
-
+    
     return (
       <div>
         <h4>Skenaariokokoelma</h4>

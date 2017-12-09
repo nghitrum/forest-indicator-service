@@ -17,6 +17,9 @@ class RightPanel extends Component {
 						key={indicator.id}
 						id={indicator.id}
 						description={indicator.name}
+						name={indicator.name}
+						dataType="indicator"
+						selectedDataChange={this.props.handleSelectedDataChange}						
 					/>
 				))}
 			</div>
