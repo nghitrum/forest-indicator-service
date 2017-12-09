@@ -9,6 +9,9 @@ class TimePeriods extends Component {
         key={item.id}
         id={item.id}
         description={item.yearStart + " - " + item.yearEnd}
+        name={item.yearStart + " - " + item.yearEnd}
+        selectedDataChange={this.props.selectedDataChange}
+        dataType="timePeriod"
       />
     ));
     return (

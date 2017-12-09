@@ -26,7 +26,9 @@ class App extends Component {
       timePeriods: [],
       indicatorCategories: [],
 
-      values: []
+      values: [],
+      selectedOptions: []
+
     };
 
     this.handleRegionalLevelChange = this.handleRegionalLevelChange.bind(this);
@@ -34,6 +36,7 @@ class App extends Component {
     this.handleScenarioCollectionChange = this.handleScenarioCollectionChange.bind(
       this
     );
+    this.handleSelectedDataChange = this.handleSelectedDataChange.bind(this);
   }
 
   bindRegionalLevelData() {
@@ -134,8 +137,28 @@ class App extends Component {
     });
   }
 
+  handleSelectedDataChange(value) {
+    if (value !== "") {
+      let position = this.state.selectedOptions.findIndex(
+        element =>
+          element.dataType === value.dataType && element.id === value.id
+      );
+      //console.log("Position", position);
+      if (position === -1) {
+        //console.log(true);
+        this.state.selectedOptions.push(value);
+      } else {
+        //console.log(false);
+        this.state.selectedOptions.splice(position, 1);
+      }
+    }
+
+    console.log(this.state.selectedOptions);
+  }
+
   render() {
-    console.log("App.js", this.state.values);
+    //  console.log("App.js", this.state.selectedData);
+
     //  console.log("App.js", this.state.timePeriods);
     return (
       <div className="container-fluid App">
@@ -154,6 +177,7 @@ class App extends Component {
             handleScenarioCollectionChange={this.handleScenarioCollectionChange}
             scenarios={this.state.scenarios}
             timePeriods={this.state.timePeriods}
+            handleSelectedDataChange={this.handleSelectedDataChange}
           />
         </div>
 
@@ -162,7 +186,10 @@ class App extends Component {
         </div>
 
         <div className="col-lg-2">
-          <RightPanel indicatorCategories={this.state.indicatorCategories} />
+          <RightPanel
+            indicatorCategories={this.state.indicatorCategories}
+            handleSelectedDataChange={this.handleSelectedDataChange}
+          />
         </div>
       </div>
     );
