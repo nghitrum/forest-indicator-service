@@ -5,7 +5,6 @@ import "react-select/dist/react-select.css";
 class RegionLevels extends Component {
 
   state = {
-    dropdownLoadBool: true,
     dropdownDisabledBool: true
   };
 
@@ -17,9 +16,9 @@ class RegionLevels extends Component {
 
   componentWillMount(){
     if(this.props.regionalLevelList === undefined){
-      this.setState({dropdownLoadBool: true, dropdownDisabledBool: true});
+      this.setState({dropdownDisabledBool: true});
     }else{
-      this.setState({dropdownLoadBool: false, dropdownDisabledBool: false});
+      this.setState({dropdownDisabledBool: false});
     }
   }
 
@@ -43,7 +42,6 @@ class RegionLevels extends Component {
           value={regionalLevel}
           onChange={this.handleChange}
           options={regionalLevelList}
-          isLoading={this.state.dropdownLoadBool}
           disabled={this.state.dropdownDisabledBool}
         />
       </div>

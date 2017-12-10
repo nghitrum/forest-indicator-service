@@ -7,6 +7,16 @@ import './chartcontainer.scss';
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 class ChartContainer extends Component {
+
+    constructor(props){
+        super(props);
+        this.setScenarioId();
+    }
+
+    setScenarioId(){
+        console.log(this.props.options)
+    }
+
     render () {
         return (
             <div className="chart-container">

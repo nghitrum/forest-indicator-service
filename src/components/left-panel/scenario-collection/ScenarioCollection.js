@@ -6,7 +6,6 @@ import "react-select/dist/react-select.css";
 
 class ScenarioCollection extends Component {
   state = {
-    dropdownLoadBool: true,
     dropdownDisabledBool: true
   };
 
@@ -20,9 +19,9 @@ class ScenarioCollection extends Component {
 
   componentWillReceiveProps() {
     if (this.props.scenarioCollectionList !== undefined || null) {
-      this.setState({ dropdownDisabledBool: false, dropdownLoadBool: false });
+      this.setState({ dropdownDisabledBool: false});
     } else {
-      this.setState({ dropdownDisabledBool: true, dropdownLoadBool: true });
+      this.setState({ dropdownDisabledBool: true});
     }
   }
 
@@ -39,7 +38,6 @@ class ScenarioCollection extends Component {
           value={scenarioCollection}
           onChange={this.handleChange}
           options={scenarioCollectionList}
-          isLoading={this.state.dropdownLoadBool}
           disabled={this.state.dropdownDisabledBool}
         />
       </div>

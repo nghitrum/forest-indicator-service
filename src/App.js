@@ -143,23 +143,15 @@ class App extends Component {
         element =>
           element.dataType === value.dataType && element.id === value.id
       );
-      //console.log("Position", position);
       if (position === -1) {
-        //console.log(true);
         this.state.selectedOptions.push(value);
       } else {
-        //console.log(false);
         this.state.selectedOptions.splice(position, 1);
       }
     }
-
-    console.log(this.state.selectedOptions);
   }
 
   render() {
-    //  console.log("App.js", this.state.selectedData);
-
-    //  console.log("App.js", this.state.timePeriods);
     return (
       <div className="container-fluid App">
         <Header />
@@ -182,7 +174,9 @@ class App extends Component {
         </div>
 
         <div className="col-lg-8">
-          <ChartContainer />
+          <ChartContainer 
+            valueData = {this.state.values}
+            options = {this.state.selectedOptions}/>
         </div>
 
         <div className="col-lg-2">

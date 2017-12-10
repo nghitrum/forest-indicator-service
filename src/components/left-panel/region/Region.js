@@ -6,7 +6,6 @@ class Region extends Component {
 
 
   state = {
-    dropdownLoadBool: true,
     dropdownDisabledBool: true
   };
 
@@ -20,9 +19,9 @@ class Region extends Component {
 
   componentWillReceiveProps() {
     if (this.props.regionList !== undefined || null) {
-      this.setState({ dropdownDisabledBool: false, dropdownLoadBool: false });
+      this.setState({ dropdownDisabledBool: false });
     } else {
-      this.setState({ dropdownDisabledBool: true, dropdownLoadBool: true });
+      this.setState({ dropdownDisabledBool: true });
     }
   }
 
@@ -39,7 +38,6 @@ class Region extends Component {
           value={region}
           onChange={this.handleChange}
           options={regionList}
-          isLoading={this.state.dropdownLoadBool}
           disabled={this.state.dropdownDisabledBool}
         />
       </div>
