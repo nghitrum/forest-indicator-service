@@ -7,7 +7,7 @@ require('highcharts-more')(ReactHighcharts.Highcharts);
 
 const config = {
     chart: {
-        defaultSeriesType: 'column'
+        polar: true
     },
     xAxis: {
         categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Oct', 'Nov', 'Dec', 'Oct', 'Nov', 'Dec', 'Oct', 'Nov', 'Dec', 'Oct', 'Nov', 'Dec', 'Oct', 'Nov', 'Dec']
@@ -26,14 +26,15 @@ const config = {
     }]
 };
 
-class BarChart extends Component {
+class MultiplePolarCharts extends Component {
     render () {
         return (
             <div>
+                <ReactHighcharts config = {config} />
                 <ReactHighcharts config = {config} />
             </div>
         )
     }
 }
 
-export default BarChart
+export default MultiplePolarCharts
