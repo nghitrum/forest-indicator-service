@@ -28,7 +28,6 @@ class App extends Component {
 
       values: [],
       selectedOptions: []
-
     };
 
     this.handleRegionalLevelChange = this.handleRegionalLevelChange.bind(this);
@@ -40,33 +39,21 @@ class App extends Component {
   }
 
   bindRegionalLevelData() {
-    let list = [];
-    ForestData.getRegionLevels().then(function(result) {
-      result.map(element => {
-        list.push({
-          value: element.id,
-          label: element.name
-        });
+    return new Promise((resolve, reject) => {
+      ForestData.getRegionLevels().then(function(result) {
+        resolve(result);
       });
     });
-
-    return list;
   }
 
   bindRegionData(regionalLevel) {
-    let list = [];
     if (regionalLevel !== "") {
-      ForestData.getRegion(regionalLevel.value).then(function(result) {
-        result.map(region => {
-          list.push({
-            value: region.id,
-            label: region.name,
-            ...region
-          });
+      return new Promise((resolve, reject) => {
+        ForestData.getRegion(regionalLevel.value).then(function(result) {
+          resolve(result);
         });
       });
     }
-    return list;
   }
 
   bindScenarioCollectionsData(region) {
@@ -95,70 +82,214 @@ class App extends Component {
   }
 
   handleRegionalLevelChange(regionalLevel) {
-    this.setState({
-      regionalLevel: regionalLevel,
-      regionList: this.bindRegionData(regionalLevel),
-      region: "",
+    let regionList = [];
+    this.bindRegionData(regionalLevel).then(result => {
+      result.map(region => {
+        regionList.push({
+          value: region.id,
+          label: region.name,
+          ...region
+        });
+      });
 
-      scenarioCollection: "",
-      scenarioCollectionList: [],
-      scenarios: [],
-      timePeriods: [],
-      indicatorCategories: [],
-      values: []
+      let scenarioCollectionList = this.bindScenarioCollectionsData(
+        regionList[0]
+      );
+
+      this.bindChartData(scenarioCollectionList[0], regionList[0]).then(
+        result => {
+          this.setState({
+            regionalLevel: regionalLevel,
+            regionList: regionList,
+            region: regionList[0],
+            scenarioCollectionList: scenarioCollectionList,
+            scenarioCollection: scenarioCollectionList[0],
+            scenarios: result.scenarios,
+            indicatorCategories: result.indicatorCategories,
+            timePeriods: result.timePeriods,
+            values: result.values
+          });
+        }
+      );
     });
-
-    this.handleRegionChange("");
   }
 
   handleRegionChange(value) {
-    this.setState({
-      region: value,
-      scenarioCollection: "",
-      scenarioCollectionList:
-        value !== "" ? this.bindScenarioCollectionsData(value) : [],
+    if (value !== "") {
+      let scenarioCollectionList = this.bindScenarioCollectionsData(value);
 
-      scenarios: [],
-      timePeriods: [],
-      indicatorCategories: [],
-      values: []
-    });
+      this.bindChartData(scenarioCollectionList[0], value).then(result => {
+        this.setState({
+          region: value,
+          scenarioCollection: scenarioCollectionList[0],
+          scenarioCollectionList: scenarioCollectionList,
+
+          scenarios: result.scenarios,
+          timePeriods: result.timePeriods,
+          indicatorCategories: result.indicatorCategories,
+          values: result.values,
+          selectedOptions: []
+        });
+      });
+    }
   }
 
   handleScenarioCollectionChange(value) {
     this.bindChartData(value, this.state.region).then(result => {
+      //  console.log(result.indicatorCategories);
       this.setState({
         scenarioCollection: value,
         scenarios: result.scenarios,
         indicatorCategories: result.indicatorCategories,
         timePeriods: result.timePeriods,
-        values: result.values
+        values: result.values,
+        selectedOptions: []
       });
     });
   }
 
   handleSelectedDataChange(value) {
+    let check = true;
     if (value !== "") {
-      let position = this.state.selectedOptions.findIndex(
-        element =>
-          element.dataType === value.dataType && element.id === value.id
-      );
-      if (position === -1) {
-        this.state.selectedOptions.push(value);
+      //  only choose 1 option in time period, the function of time period is similar to radio box
+      if (value.dataType === "timePeriod") {
+        let newArr = this.state.selectedOptions.filter(function(element) {
+          return element.dataType === "timePeriod";
+        });
+
+        if (newArr.length === 0) {
+          this.state.selectedOptions.push(value);
+        } else {
+          let position = this.state.selectedOptions.findIndex(
+            element =>
+              element.dataType === newArr[0].dataType &&
+              element.id === newArr[0].id
+          );
+
+          this.state.selectedOptions.splice(position, 1);
+          this.state.selectedOptions.push(value);
+        }
       } else {
-        this.state.selectedOptions.splice(position, 1);
+        //  Only for scenarios and indicators
+        let position = this.state.selectedOptions.findIndex(
+          element =>
+            element.dataType === value.dataType && element.id === value.id
+        );
+
+        // console.log(position);
+
+        if (position === -1 || position === "undefined") {
+          //  check for number of allowances
+          let numOfScenarios = this.state.selectedOptions.filter(function(e) {
+            return e.dataType === "scenario";
+          }).length;
+
+          let numOfIndicators = this.state.selectedOptions.filter(function(e) {
+            return e.dataType === "indicator";
+          }).length;
+
+          if (numOfScenarios * (numOfIndicators + 1) <= 20) {
+            this.state.selectedOptions.push(value);
+          } else {
+            check = false;
+          }
+        } else {
+          //  Check for mandatory
+          if (value.dataType === "indicator") {
+            let indicatorSelected = this.state.selectedOptions.filter(function(
+              element
+            ) {
+              return element.dataType === "indicator";
+            });
+            this.state.indicatorCategories.map(element => {
+              if (element.isMandatory == 1) {
+                let count = 0;
+                element.indicators.map(indicator => {
+                  indicatorSelected.map(s => {
+                    if (s.id == indicator.id) {
+                      count++;
+                    }
+                  });
+                });
+
+                if (count > 1) {
+                  this.state.selectedOptions.splice(position, 1);
+                  check = false;
+                }
+              }
+            });
+          } else {
+            //  number of allowances of scenarios is 1 minimum
+            let numOfScenarios = this.state.selectedOptions.filter(function(e) {
+              return e.dataType === "scenario";
+            }).length;
+            //  console.log(numOfScenarios);
+            if (numOfScenarios > 1) {
+              this.state.selectedOptions.splice(position, 1);
+              check = false;
+            }
+          }
+        }
       }
     }
+    console.log(this.state.selectedOptions);
+    return check;
+  }
+
+  componentDidMount() {
+    this.bindRegionalLevelData().then(result => {
+      let regionalLevelList = [];
+      result.map(element => {
+        regionalLevelList.push({
+          value: element.id,
+          label: element.name,
+          ...element
+        });
+      });
+
+      let regionList = [];
+      this.bindRegionData(regionalLevelList[0]).then(result => {
+        result.map(region => {
+          regionList.push({
+            value: region.id,
+            label: region.name,
+            ...region
+          });
+        });
+
+        let scenarioCollectionList = this.bindScenarioCollectionsData(
+          regionList[0]
+        );
+
+        this.bindChartData(scenarioCollectionList[0], regionList[0]).then(
+          result => {
+            this.setState({
+              regionalLevelList: regionalLevelList,
+              regionalLevel: regionalLevelList[0],
+              regionList: regionList,
+              region: regionList[0],
+              scenarioCollectionList: scenarioCollectionList,
+              scenarioCollection: scenarioCollectionList[0],
+              scenarios: result.scenarios,
+              indicatorCategories: result.indicatorCategories,
+              timePeriods: result.timePeriods,
+              values: result.values
+            });
+          }
+        );
+      });
+    });
   }
 
   render() {
+    //  console.log(this.state.indicatorCategories);
     return (
       <div className="container-fluid App">
         <Header />
 
         <div className="col-lg-2">
           <LeftPanel
-            regionalLevelList={this.bindRegionalLevelData()}
+            regionalLevelList={this.state.regionalLevelList}
             regionalLevel={this.state.regionalLevel}
             handleRegionalLevelChange={this.handleRegionalLevelChange}
             region={this.state.region}
@@ -174,9 +305,10 @@ class App extends Component {
         </div>
 
         <div className="col-lg-8">
-          <ChartContainer 
-            valueData = {this.state.values}
-            options = {this.state.selectedOptions}/>
+          <ChartContainer
+            valueData={this.state.values}
+            options={this.state.selectedOptions}
+          />
         </div>
 
         <div className="col-lg-2">

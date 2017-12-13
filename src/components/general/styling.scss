@@ -1,18 +1,23 @@
 label {
-    padding:8px;
-    margin:0 0 8px;
-    display:block; 
+  padding: 8px;
+  margin: 0 0 8px;
+  display: block;
 }
-   
+
 label:hover {
-     cursor:pointer;
+  cursor: pointer;
 }
 
-:checked + span {
-    background-color: rgb(222, 235, 217);
-    display:block; 
+.scenarios input:checked + span,
+.indicators input:checked + span {
+  background-color: rgb(222, 235, 217);
+  display: block;
 }
 
-.hidden{
-    display: none;
+.time-periods span {
+  display: block;
+}
+
+.hidden {
+  display: none;
 }
