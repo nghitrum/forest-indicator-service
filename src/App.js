@@ -2,11 +2,13 @@ import React, { Component } from "react";
 
 import "./App.scss";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "./components/feedback-form/form.scss"
 
 import Header from "./components/header/header";
 import RightPanel from "./components/right-panel/RightPanel";
 import LeftPanel from "./components/left-panel/LeftPanel";
 import ChartContainer from "./components/chart-container/ChartContainer";
+import Modal from "./components/feedback-form/Form";
 
 import ForestData from "./data/ForestData";
 
@@ -27,8 +29,9 @@ class App extends Component {
       indicatorCategories: [],
 
       values: [],
-      selectedOptions: []
+      selectedOptions: [],
 
+      modalOpen: false
     };
 
     this.handleRegionalLevelChange = this.handleRegionalLevelChange.bind(this);
@@ -150,8 +153,16 @@ class App extends Component {
       }
     }
   }
+  
+  openModal(){
+    this.setState({modalOpen: true});
+  }
 
+  closeModal(){
+    this.setState({modalOpen: false});
+  }
   render() {
+    const { modalOpen } = this.state;
     return (
       <div className="container-fluid App">
         <Header />
@@ -185,6 +196,16 @@ class App extends Component {
             handleSelectedDataChange={this.handleSelectedDataChange}
           />
         </div>
+        <div>
+        <button 
+          id="modal-open-btn"
+          onClick={this.openModal.bind(this)}
+          >Feedback</button>
+        
+        {modalOpen 
+          ? <Modal closeModal={this.closeModal.bind(this)} />  
+          : ''}
+      </div>
       </div>
     );
   }
