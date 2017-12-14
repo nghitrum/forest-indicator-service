@@ -7,7 +7,8 @@ require('highcharts-more')(ReactHighcharts.Highcharts);
 
 const config = {
     chart: {
-        polar: true
+        polar: true,
+        backgroundColor: 'transparent'
     },
     xAxis: {
         categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Oct', 'Nov', 'Dec', 'Oct', 'Nov', 'Dec', 'Oct', 'Nov', 'Dec', 'Oct', 'Nov', 'Dec', 'Oct', 'Nov', 'Dec']

@@ -202,11 +202,11 @@ class App extends Component {
               return element.dataType === "indicator";
             });
             this.state.indicatorCategories.map(element => {
-              if (element.isMandatory == 1) {
+              if (element.isMandatory === 1) {
                 let count = 0;
                 element.indicators.map(indicator => {
                   indicatorSelected.map(s => {
-                    if (s.id == indicator.id) {
+                    if (s.id === indicator.id) {
                       count++;
                     }
                   });

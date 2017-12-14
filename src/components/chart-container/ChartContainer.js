@@ -28,7 +28,6 @@ class ChartContainer extends Component {
     }
 
     changeChartType(type) {
-        console.log(type)
         this.setState({
           chartType: type
         });
@@ -44,6 +43,8 @@ class ChartContainer extends Component {
                 return <BarChart />
             case "table":
                 return <TableChart />
+            default:
+                return <Chart />
         }
     }
     

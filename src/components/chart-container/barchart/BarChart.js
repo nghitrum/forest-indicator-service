@@ -7,23 +7,38 @@ require('highcharts-more')(ReactHighcharts.Highcharts);
 
 const config = {
     chart: {
-        defaultSeriesType: 'column'
+        defaultSeriesType: 'column',
+        backgroundColor: 'transparent'
     },
+    //TODO: Get categories from props and set them here
     xAxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Oct', 'Nov', 'Dec', 'Oct', 'Nov', 'Dec', 'Oct', 'Nov', 'Dec', 'Oct', 'Nov', 'Dec', 'Oct', 'Nov', 'Dec']
+        categories: ['Jan', 'Feb', 'Mar', 'Apr'],
     },
-    legend: {
-        layout: 'horizontal',
-        floating: true,
-        backgroundColor: '#FFFFFF',
-        align: 'right',
-        verticalAlign: 'top',
-        y: 60,
-        x: -60
+    yAxis: {
+        min: 0,
+        labels: {
+            overflow: 'justify'
+        }
     },
+
+    //TODO: Get values from props and loop them to return data series
     series: [{
-        data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4, 194.1, 95.6, 54.4, 194.1, 95.6, 54.4, 194.1, 95.6, 54.4]
-    }]
+        name: "Maximum economic removal",
+        data: [0.5, 0.2, 0.4]
+    },
+    {
+        name: "Climate and energy policy",
+        data: [0.9, 0.8, 0.7]
+    },
+    {
+        name: "Lingonberry yield",
+        data: [0.5, 0.2, 1.0]
+    },
+    {
+        name: "Carbon sink",
+        data: [0.2, 0.4, 0.9]
+    },
+    ]
 };
 
 class BarChart extends Component {

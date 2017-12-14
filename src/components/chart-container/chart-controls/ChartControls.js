@@ -4,9 +4,6 @@ import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './chart-controls.scss';
 
 class ChartControls extends Component {
-    constructor(props){
-        super(props);
-    }
 
     changeChartType = e => {
         switch(e.target.value){
@@ -21,6 +18,9 @@ class ChartControls extends Component {
                 break;
             case "table":
                 this.props.changeChartType(e.target.value);
+                break;
+            default:
+                this.props.changeChartType("singlepolar");
                 break;
         }
     }
