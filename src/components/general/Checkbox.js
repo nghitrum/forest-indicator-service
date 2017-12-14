@@ -27,7 +27,7 @@ class Checkbox extends Component {
       id: event.target.value
     });
 
-    console.log("toogle", check);
+    // console.log("toogle", check);
 
     this.setState({
       isChecked: check
@@ -60,20 +60,24 @@ class Checkbox extends Component {
   }
 
   render() {
-    const { id, name, description } = this.props;
+    // console.log(this.props.description);
     return (
       <div>
-        <label>
+        <label
+          data-toggle="tooltip"
+          data-placement="auto"
+          title={this.props.description}
+        >
           <input
-            value={id}
-            name={name}
+            value={this.props.id}
+            name={this.props.name}
             type="checkbox"
             checked={this.state.isChecked}
             onChange={this.toggleChange}
             className="hidden"
           />
 
-          <span>{description}</span>
+          <span>{this.props.name}</span>
         </label>
       </div>
     );

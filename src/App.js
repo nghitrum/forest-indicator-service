@@ -232,7 +232,7 @@ class App extends Component {
         }
       }
     }
-    console.log(this.state.selectedOptions);
+    // console.log(this.state.selectedOptions);
     return check;
   }
 
@@ -282,7 +282,7 @@ class App extends Component {
   }
 
   render() {
-    //  console.log(this.state.indicatorCategories);
+    // console.log(this.state.timePeriods);
     return (
       <div className="container-fluid App">
         <Header />

@@ -9,7 +9,7 @@ class Scenarios extends Component {
         key={item.id}
         id={item.id}
         name={item.name}
-        description={item.name}
+        description={item.description}
         selectedDataChange={this.props.selectedDataChange}
         dataType="scenario"
         checked={index === 0 ? true : false}
