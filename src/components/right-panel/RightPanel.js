@@ -18,7 +18,7 @@ class RightPanel extends Component {
           <Checkbox
             key={indicator.id}
             id={indicator.id}
-            description={indicator.name}
+            description={indicator.description}
             name={indicator.name}
             dataType="indicator"
             selectedDataChange={this.props.handleSelectedDataChange}

@@ -8,7 +8,7 @@ class TimePeriods extends Component {
       <Checkbox
         key={item.id}
         id={item.id}
-        description={item.yearStart + " - " + item.yearEnd}
+        description={item.description}
         name={item.yearStart + " - " + item.yearEnd}
         selectedDataChange={this.props.selectedDataChange}
         dataType="timePeriod"
