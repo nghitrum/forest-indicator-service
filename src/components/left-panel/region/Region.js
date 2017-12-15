@@ -4,7 +4,6 @@ import "react-select/dist/react-select.css";
 
 class Region extends Component {
 
-
   state = {
     dropdownDisabledBool: true
   };
@@ -31,7 +30,7 @@ class Region extends Component {
 
     return (
       <div>
-        <h4>Alue</h4>
+        <h4>{this.props.regionLabel}</h4>
         <Select
           name=""
           className=""

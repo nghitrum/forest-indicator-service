@@ -13,24 +13,50 @@ class RightPanel extends Component {
           {item.name}&nbsp;{item.isMandatory === 1 ? "*" : ""}
         </h4>
 
-        {item.indicators.map((indicator, index) => (
-          // console.log(index, index === 0 && item.isMandatory ? true : false),
-          <Checkbox
-            key={indicator.id}
-            id={indicator.id}
-            description={indicator.description}
-            name={indicator.name}
-            dataType="indicator"
-            selectedDataChange={this.props.handleSelectedDataChange}
-            checked={index === 0 && item.isMandatory ? true : false}
-          />
-        ))}
+        {item.indicators.map((indicator, index) => {
+          
+          if (index === 0 && item.isMandatory) {
+            // console.log(`MANDATORY: id of ${indicator.name} is ${indicator.id}`)
+            return (
+              <Checkbox
+                key={indicator.id}
+                id={indicator.id}
+                description={indicator.description}
+                name={indicator.name}
+                dataType="indicator"
+                selectedDataChange={this.props.handleSelectedDataChange}
+                checked={true}
+                selectedOptions={this.props.selectedOptions}
+              />
+            );
+          } else {
+            // console.log(`NO MANDA: id of ${indicator.name} is ${indicator.id}`)
+            return (
+              <Checkbox
+                key={indicator.id}
+                id={indicator.id}
+                description={indicator.description}
+                name={indicator.name}
+                dataType="indicator"
+                selectedDataChange={this.props.handleSelectedDataChange}
+                checked={false}
+                selectedOptions={this.props.selectedOptions}
+              />
+            );
+           
+          } 
+          //console.log(index, index === 0 && item.isMandatory ? true : false),
+        })}
       </div>
     ));
 
+    // console.log('listItems:', listItems);
+
     return (
       <div className="panel-container">
-        <h3 className="header-spacing-panels">Indikaattoreiden valinta</h3>
+        <h3 className="header-spacing-panels">
+          {this.props.indicatorSelectionLabel}
+        </h3>
         {listItems}
       </div>
     );

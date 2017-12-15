@@ -17,7 +17,7 @@ class TimePeriods extends Component {
     ));
     return (
       <div className="time-periods">
-        <h4>Ajankohta</h4>
+        <h4>{this.props.timePeriodsLabel}</h4>
         {listItems}
       </div>
     );
