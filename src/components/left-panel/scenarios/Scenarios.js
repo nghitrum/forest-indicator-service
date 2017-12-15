@@ -17,7 +17,7 @@ class Scenarios extends Component {
     ));
     return (
       <div className="scenarios">
-        <h4>Skenaariot</h4>
+        <h4>{this.props.scenariosLabel}</h4>
         {listItems}
       </div>
     );

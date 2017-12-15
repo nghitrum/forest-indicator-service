@@ -10,26 +10,53 @@ import ChartContainer from "./components/chart-container/ChartContainer";
 
 import ForestData from "./data/ForestData";
 
+import { getCookie, getCookieName } from "./components/general/cookie.js";
+
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      scenarioSelectionLabel: "",
+
+      language: getCookie(getCookieName()),
+      languageList: [
+        {
+          value: 0,
+          label: "FI"
+        },
+        {
+          value: 1,
+          label: "EN"
+        }
+      ],
+      languageLabel: "",
+
       regionalLevel: "",
       regionalLevelList: [],
+      regionalLevelLabel: "",
+
       region: "",
       regionList: [],
+      regionLabel: "",
 
       scenarioCollection: "",
       scenarioCollectionList: [],
+      scenarioCollectionListLabel: "",
+
+      scenariosLabel: "",
       scenarios: [],
       timePeriods: [],
+      timePeriodsLabel: "",
+
+      indicatorSelectionLabel: "",
       indicatorCategories: [],
 
       values: [],
       selectedOptions: []
     };
 
+    this.handleLanguageChange = this.handleLanguageChange.bind(this);
     this.handleRegionalLevelChange = this.handleRegionalLevelChange.bind(this);
     this.handleRegionChange = this.handleRegionChange.bind(this);
     this.handleScenarioCollectionChange = this.handleScenarioCollectionChange.bind(
@@ -81,6 +108,16 @@ class App extends Component {
     });
   }
 
+  handleLanguageChange(language) {
+    this.setState({
+      language: language.value
+    });
+
+    // console.log(this.state);
+    this.getAllTheLabel();
+    this.getAllTheData();
+  }
+
   handleRegionalLevelChange(regionalLevel) {
     let regionList = [];
     this.bindRegionData(regionalLevel).then(result => {
@@ -109,6 +146,7 @@ class App extends Component {
             timePeriods: result.timePeriods,
             values: result.values
           });
+          this.setState({ selectedOptions: this.getDefaultSelectedOptions() });
         }
       );
     });
@@ -127,11 +165,12 @@ class App extends Component {
           scenarios: result.scenarios,
           timePeriods: result.timePeriods,
           indicatorCategories: result.indicatorCategories,
-          values: result.values,
-          selectedOptions: []
+          values: result.values
         });
+        this.setState({ selectedOptions: this.getDefaultSelectedOptions() });
       });
     }
+    // console.log(this.state.selectedOptions);
   }
 
   handleScenarioCollectionChange(value) {
@@ -142,10 +181,41 @@ class App extends Component {
         scenarios: result.scenarios,
         indicatorCategories: result.indicatorCategories,
         timePeriods: result.timePeriods,
-        values: result.values,
-        selectedOptions: []
+        values: result.values
       });
+      this.setState({ selectedOptions: this.getDefaultSelectedOptions() });
     });
+  }
+
+  getDefaultSelectedOptions() {
+    let list = [];
+    list.push({
+      dataType: "scenario",
+      name: this.state.scenarios[0].name,
+      id: this.state.scenarios[0].id.toString()
+    });
+
+    list.push({
+      dataType: "timePeriod",
+      name: this.state.timePeriods[0].yearStart + " - " + this.state.timePeriods[0].yearEnd,
+      id: this.state.timePeriods[0].id.toString()
+    });
+
+    this.state.indicatorCategories.map(cat => {
+      if (cat.isMandatory == 1) {
+        cat.indicators.map((indicator, index) => {
+          // console.log(indicator);
+          if (index === 0) {
+            list.push({
+              dataType: "indicator",
+              name: indicator.name,
+              id: indicator.id.toString()
+            });
+          }
+        });
+      }
+    });
+    return list;
   }
 
   handleSelectedDataChange(value) {
@@ -159,6 +229,9 @@ class App extends Component {
 
         if (newArr.length === 0) {
           this.state.selectedOptions.push(value);
+          this.setState({
+            selectedOptions: this.state.selectedOptions
+          });
         } else {
           let position = this.state.selectedOptions.findIndex(
             element =>
@@ -168,6 +241,9 @@ class App extends Component {
 
           this.state.selectedOptions.splice(position, 1);
           this.state.selectedOptions.push(value);
+          this.setState({
+            selectedOptions: this.state.selectedOptions
+          });
         }
       } else {
         //  Only for scenarios and indicators
@@ -175,8 +251,6 @@ class App extends Component {
           element =>
             element.dataType === value.dataType && element.id === value.id
         );
-
-        // console.log(position);
 
         if (position === -1 || position === "undefined") {
           //  check for number of allowances
@@ -190,6 +264,9 @@ class App extends Component {
 
           if (numOfScenarios * (numOfIndicators + 1) <= 20) {
             this.state.selectedOptions.push(value);
+            this.setState({
+              selectedOptions: this.state.selectedOptions
+            });
           } else {
             check = false;
           }
@@ -206,14 +283,21 @@ class App extends Component {
                 let count = 0;
                 element.indicators.map(indicator => {
                   indicatorSelected.map(s => {
-                    if (s.id === indicator.id) {
+                    if (s.id.toString() === indicator.id.toString()) {
                       count++;
                     }
                   });
                 });
 
+                // console.log(count);
+
                 if (count > 1) {
                   this.state.selectedOptions.splice(position, 1);
+                  // console.log("before:",this.state.selectedOptions);
+                  this.setState({
+                    selectedOptions: this.state.selectedOptions
+                  });
+                  // console.log("after:",this.state.selectedOptions);
                   check = false;
                 }
               }
@@ -226,17 +310,22 @@ class App extends Component {
             //  console.log(numOfScenarios);
             if (numOfScenarios > 1) {
               this.state.selectedOptions.splice(position, 1);
+              this.setState({
+                selectedOptions: this.state.selectedOptions
+              });
               check = false;
             }
           }
         }
       }
     }
-    // console.log(this.state.selectedOptions);
+    // console.log("fuc");
+
     return check;
   }
 
-  componentDidMount() {
+  getAllTheData() {
+    //  console.log(this.state.language);
     this.bindRegionalLevelData().then(result => {
       let regionalLevelList = [];
       result.map(element => {
@@ -263,6 +352,7 @@ class App extends Component {
 
         this.bindChartData(scenarioCollectionList[0], regionList[0]).then(
           result => {
+            // console.log("getAllTheData");
             this.setState({
               regionalLevelList: regionalLevelList,
               regionalLevel: regionalLevelList[0],
@@ -275,20 +365,63 @@ class App extends Component {
               timePeriods: result.timePeriods,
               values: result.values
             });
+            this.setState({
+              selectedOptions: this.getDefaultSelectedOptions()
+            });
           }
         );
       });
     });
   }
 
+  getAllTheLabel() {
+    let cookie = getCookie(getCookieName());
+    if (cookie == 1) {
+      this.setState({
+        scenarioSelectionLabel: "Scenario Selection",
+        languageLabel: "Language",
+        regionalLevelLabel: "Regional Level",
+        regionLabel: "Region",
+        scenarioCollectionListLabel: "Scenario Collection",
+        scenariosLabel: "Scenario",
+        timePeriodsLabel: "Time Periods",
+        indicatorSelectionLabel: "Indicator Categories"
+      });
+    } else {
+      this.setState({
+        scenarioSelectionLabel: "Skenaarioiden valinta",
+        languageLabel: "Kieli",
+        regionalLevelLabel: "Aluetaso",
+        regionLabel: "Alue",
+        scenarioCollectionListLabel: "Skenaariokokoelma",
+        scenariosLabel: "Skenaariot",
+        timePeriodsLabel: "Ajankohta",
+        indicatorSelectionLabel: "Indikaattoreiden valinta"
+      });
+    }
+  }
+
+  // componentWillReceiveProps() {
+  //   this.getAllTheLabel();
+  //   this.getAllTheData();
+  // }
+
+  componentDidMount() {
+    this.getAllTheLabel();
+    this.getAllTheData();
+  }
+
   render() {
-    // console.log(this.state.timePeriods);
+    // console.log(this.state.selectedOptions);
     return (
       <div className="container-fluid App">
         <Header />
 
         <div className="col-lg-2">
           <LeftPanel
+            language={this.state.language}
+            languageList={this.state.languageList}
+            handleLanguageChange={this.handleLanguageChange}
             regionalLevelList={this.state.regionalLevelList}
             regionalLevel={this.state.regionalLevel}
             handleRegionalLevelChange={this.handleRegionalLevelChange}
@@ -301,6 +434,13 @@ class App extends Component {
             scenarios={this.state.scenarios}
             timePeriods={this.state.timePeriods}
             handleSelectedDataChange={this.handleSelectedDataChange}
+            scenarioSelectionLabel={this.state.scenarioSelectionLabel}
+            languageLabel={this.state.languageLabel}
+            regionalLevelLabel={this.state.regionalLevelLabel}
+            regionLabel={this.state.regionLabel}
+            scenarioCollectionListLabel={this.state.scenarioCollectionListLabel}
+            scenariosLabel={this.state.scenariosLabel}
+            timePeriodsLabel={this.state.timePeriodsLabel}
           />
         </div>
 
@@ -315,6 +455,8 @@ class App extends Component {
           <RightPanel
             indicatorCategories={this.state.indicatorCategories}
             handleSelectedDataChange={this.handleSelectedDataChange}
+            indicatorSelectionLabel={this.state.indicatorSelectionLabel}
+            selectedOptions={this.state.selectedOptions}
           />
         </div>
       </div>

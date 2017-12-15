@@ -1,7 +1,20 @@
 import axios from "axios";
+import { getCookie, getCookieName } from "../components/general/cookie.js";
+
+function getLanguage() {
+  let language = getCookie(getCookieName());
+  // console.log(language);
+  if (language === '1') {
+    return "en";
+  } else {
+    return "fi";
+  }
+}
 
 function getRegionLevels() {
   return new Promise((resolve, reject) => {
+    
+    axios.defaults.headers.common["Accept-Language"] = this.getLanguage();
     axios
       .get("http://melatupa.azurewebsites.net/regionLevels")
       .then(results => {
@@ -16,6 +29,8 @@ function getRegionLevels() {
 
 function getRegion(regionLevelId) {
   return new Promise((resolve, reject) => {
+    axios.defaults.headers.common["Accept-Language"] = this.getLanguage();
+
     axios
       .get(
         "http://melatupa.azurewebsites.net/regionLevels/" +
@@ -34,6 +49,8 @@ function getRegion(regionLevelId) {
 
 function getScenarionCollection(regionLevelId, regionId) {
   return new Promise((resolve, reject) => {
+    axios.defaults.headers.common["Accept-Language"] = this.getLanguage();
+
     axios
       .get(
         "http://melatupa.azurewebsites.net/scenarioCollection/" +
@@ -51,4 +68,4 @@ function getScenarionCollection(regionLevelId, regionId) {
   });
 }
 
-export default { getRegionLevels, getRegion, getScenarionCollection };
+export default { getRegionLevels, getRegion, getScenarionCollection, getLanguage };

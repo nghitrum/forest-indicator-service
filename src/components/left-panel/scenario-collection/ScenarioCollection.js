@@ -31,7 +31,7 @@ class ScenarioCollection extends Component {
     
     return (
       <div>
-        <h4>Skenaariokokoelma</h4>
+        <h4>{this.props.scenarioCollectionListLabel}</h4>
         <Select
           name=""
           className="max"

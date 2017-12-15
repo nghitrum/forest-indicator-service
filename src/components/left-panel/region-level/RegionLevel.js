@@ -36,7 +36,7 @@ class RegionLevels extends Component {
     
     return (
       <div>
-        <h4>Aluetaso</h4>
+        <h4>{this.props.regionalLevelLabel}</h4>
         <Select
           placeholder="Select region level"
           value={regionalLevel}

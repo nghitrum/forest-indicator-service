@@ -9,6 +9,7 @@ import {
 class Checkbox extends Component {
   constructor(props) {
     super(props);
+    // console.log("constructor:", this.props.name, this.props.checked);
     this.state = {
       isChecked: this.props.checked
     };
@@ -27,60 +28,62 @@ class Checkbox extends Component {
       id: event.target.value
     });
 
-    // console.log("toogle", check);
+    //console.log("toogle ", check);
 
     this.setState({
       isChecked: check
     });
   };
 
-  componentWillReceiveProps() {
-    if (this.state.isChecked === true && this.props.dataType === "indicator") {
-      // console.log("componentWillReceiveProps");
-      this.props.selectedDataChange({
-        dataType: this.props.dataType,
-        name: this.props.name,
-        id: this.props.id.toString()
-      });
-
-      setCheckedBackgroundColor(this.props.name);
-    }
-  }
-
-  componentDidMount() {
-    if (this.props.checked === true) {
-      this.props.selectedDataChange({
-        dataType: this.props.dataType,
-        name: this.props.name,
-        id: this.props.id.toString()
-      });
-
-      setCheckedBackgroundColor(this.props.name);
-    }
-  }
+  // componentDidMount() {
+  //   // setCheckedBackgroundColor(this.props.name);
+  // }
 
   render() {
-    // console.log(this.props.description);
-    return (
-      <div>
-        <label
-          data-toggle="tooltip"
-          data-placement="auto"
-          title={this.props.description}
-        >
-          <input
-            value={this.props.id}
-            name={this.props.name}
-            type="checkbox"
-            checked={this.state.isChecked}
-            onChange={this.toggleChange}
-            className="hidden"
-          />
+    if (this.props.selectedOptions) {
+      const idList = this.props.selectedOptions.map(option => option.id);
+      return (
+        <div>
+          <label
+            data-toggle="tooltip"
+            data-placement="auto"
+            title={this.props.description}
+          >
+            <input
+              value={this.props.id}
+              name={this.props.name}
+              type="checkbox"
+              checked={idList.includes(this.props.id.toString())}
+              onChange={this.toggleChange}
+              className="hidden"
+            />
 
-          <span>{this.props.name}</span>
-        </label>
-      </div>
-    );
+            <span>{this.props.name}</span>
+          </label>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <label
+            data-toggle="tooltip"
+            data-placement="auto"
+            title={this.props.description}
+          >
+            <input
+              value={this.props.id}
+              name={this.props.name}
+              type="checkbox"
+              checked={this.state.isChecked}
+              onChange={this.toggleChange}
+              className="hidden"
+            />
+
+            <span>{this.props.name}</span>
+          </label>
+        </div>
+      );
+    }
   }
 }
 

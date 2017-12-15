@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+import Language from "./language/Language";
 import RegionLevel from "./region-level/RegionLevel";
 import Region from "./region/Region";
 import ScenarioCollection from "./scenario-collection/ScenarioCollection";
@@ -10,6 +11,10 @@ import "./leftpanel.scss";
 
 class LeftPanel extends Component {
   render() {
+    const language = this.props.language;
+    const languageList = this.props.languageList;
+    const languageData = this.props.handleLanguageChange;
+
     const regionalLevel = this.props.regionalLevel;
     const regionalLevelList = this.props.regionalLevelList;
     const regionalLevelData = this.props.handleRegionalLevelChange;
@@ -31,13 +36,24 @@ class LeftPanel extends Component {
 
     return (
       <div className="leftpanel-container">
-        <h3 className="header-spacing-panels">Skenaarioiden valinta</h3>
+        <div className="language-select">
+          <Language
+            language={language}
+            languageList={languageList}
+            languageData={languageData}
+            languageLabel={this.props.languageLabel}
+          />
+        </div>
+        <h3 className="header-spacing-panels">
+          {this.props.scenarioSelectionLabel}
+        </h3>
 
         <div className="region-level">
           <RegionLevel
             regionalLevelList={regionalLevelList}
             regionalLevel={regionalLevel}
             regionalLevelData={regionalLevelData}
+            regionalLevelLabel={this.props.regionalLevelLabel}
           />
         </div>
 
@@ -46,6 +62,7 @@ class LeftPanel extends Component {
             regionList={regionList}
             region={region}
             regionData={regionData}
+            regionLabel={this.props.regionLabel}
           />
         </div>
 
@@ -54,6 +71,7 @@ class LeftPanel extends Component {
             scenarioCollectionList={scenarioCollectionList}
             scenarioCollection={scenarioCollection}
             scenarioCollectionData={scenarioCollectionData}
+            scenarioCollectionListLabel={this.props.scenarioCollectionListLabel}
           />
         </div>
 
@@ -61,12 +79,14 @@ class LeftPanel extends Component {
           <Scenarios
             scenarios={scenarios}
             selectedDataChange={selectedDataChange}
+            scenariosLabel={this.props.scenariosLabel}
           />
         </div>
         <div className="timeline">
           <TimePeriods
             timePeriods={timePeriods}
             selectedDataChange={selectedDataChange}
+            timePeriodsLabel={this.props.timePeriodsLabel}
           />
         </div>
       </div>
