@@ -459,6 +459,9 @@ class App extends Component {
           <ChartContainer
             valueData={this.state.values}
             options={this.state.selectedOptions}
+            scenarios={this.state.scenarios}
+            regionalLevel={this.state.regionalLevel}
+            region={this.state.region}
           />
         </div>
 
