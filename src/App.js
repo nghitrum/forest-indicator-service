@@ -7,6 +7,7 @@ import Header from "./components/header/header";
 import RightPanel from "./components/right-panel/RightPanel";
 import LeftPanel from "./components/left-panel/LeftPanel";
 import ChartContainer from "./components/chart-container/ChartContainer";
+import Modal from "./components/general/Modal.js";
 
 import ForestData from "./data/ForestData";
 
@@ -53,7 +54,10 @@ class App extends Component {
       indicatorCategories: [],
 
       values: [],
-      selectedOptions: []
+      selectedOptions: [],
+
+      feedbackLabel: "",
+      guidanceLabel: ""
     };
 
     this.handleLanguageChange = this.handleLanguageChange.bind(this);
@@ -197,7 +201,10 @@ class App extends Component {
 
     list.push({
       dataType: "timePeriod",
-      name: this.state.timePeriods[0].yearStart + " - " + this.state.timePeriods[0].yearEnd,
+      name:
+        this.state.timePeriods[0].yearStart +
+        " - " +
+        this.state.timePeriods[0].yearEnd,
       id: this.state.timePeriods[0].id.toString()
     });
 
@@ -385,7 +392,9 @@ class App extends Component {
         scenarioCollectionListLabel: "Scenario Collection",
         scenariosLabel: "Scenario",
         timePeriodsLabel: "Time Periods",
-        indicatorSelectionLabel: "Indicator Categories"
+        indicatorSelectionLabel: "Indicator Categories",
+        feedbackLabel: "Give us a feedback",
+        guidanceLabel: "Guidance"
       });
     } else {
       this.setState({
@@ -396,7 +405,9 @@ class App extends Component {
         scenarioCollectionListLabel: "Skenaariokokoelma",
         scenariosLabel: "Skenaariot",
         timePeriodsLabel: "Ajankohta",
-        indicatorSelectionLabel: "Indikaattoreiden valinta"
+        indicatorSelectionLabel: "Indikaattoreiden valinta",
+        feedbackLabel: "Anna meille palautetta",
+        guidanceLabel: "Neuvonta"
       });
     }
   }
@@ -458,6 +469,18 @@ class App extends Component {
             indicatorSelectionLabel={this.state.indicatorSelectionLabel}
             selectedOptions={this.state.selectedOptions}
           />
+
+          <div className="feedback">
+            <a>
+              <h4></h4>
+            </a>
+
+            <Modal guidanceLabel={this.state.guidanceLabel}/>
+
+            <a href="mailto:metsamittari@luke.fi?Subject=Feedback%20about%20service">
+              <h4>{this.state.feedbackLabel}</h4>
+            </a>
+          </div>
         </div>
       </div>
     );
