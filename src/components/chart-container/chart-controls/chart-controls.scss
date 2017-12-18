@@ -1,11 +1,19 @@
-.chart-control-buttons{
-    margin-right: 10rem;
+.chart-control-buttons {
+  width: 45%;
+  flex: 1;
 }
 
-.chart-export-buttons{
-    margin-bottom: 3rem;
+.chart-export-buttons {
+  margin-bottom: 3rem;
+  width: 55%;
 }
 
-button{
-    margin-left: 1rem;
+button {
+  margin-left: 1rem;
+}
+
+.control-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
 }

@@ -1,0 +1,27 @@
+.first-column {
+  width: 30rem;
+  vertical-align: bottom;
+}
+
+.header-rotate-90 {
+  /* Safari */
+  -webkit-transform: rotate(-90deg);
+
+  /* Firefox */
+  -moz-transform: rotate(-90deg);
+
+  /* IE */
+  -ms-transform: rotate(-90deg);
+
+  /* Opera */
+  -o-transform: rotate(-90deg);
+
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+.header-label {
+  font-weight: bold;
+  padding-bottom: 7rem;
+  align-self: center;
+}
