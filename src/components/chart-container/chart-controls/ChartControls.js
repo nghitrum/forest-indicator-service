@@ -49,10 +49,6 @@ class ChartControls extends Component {
             Table chart
           </button>
         </div>
-        <div className="chart-export-buttons">
-          <button className="btn">Download chart</button>
-          <button className="btn">Print chart</button>
-        </div>
       </div>
     );
   }

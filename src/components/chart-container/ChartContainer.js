@@ -57,7 +57,15 @@ class ChartContainer extends Component {
           />
         );
       case "table":
-        return <TableChart />;
+        return (
+          <TableChart
+            values={this.props.valueData}
+            options={this.props.options}
+            scenarios={this.props.scenarios}
+            regionalLevel={this.props.regionalLevel}
+            region={this.props.region}
+          />
+        );
       default:
         return <Chart />;
     }
@@ -69,7 +77,7 @@ class ChartContainer extends Component {
         <div className="chart-content">
           {this.RenderChart(this.state.chartType)}
         </div>
-        <div className="chart-controls container">
+        <div className="chart-controls">
           <ChartControls changeChartType={this.changeChartType} />
         </div>
       </div>
