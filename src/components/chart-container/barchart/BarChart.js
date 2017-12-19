@@ -4,7 +4,7 @@ import "../../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 import ReactHighcharts from "react-highcharts";
 require("highcharts-more")(ReactHighcharts.Highcharts);
-require("highcharts-exporting")(ReactHighcharts.Highcharts);
+// require("highcharts-exporting")(ReactHighcharts.Highcharts);
 
 class BarChart extends Component {
   constructor(props) {
@@ -51,6 +51,53 @@ class BarChart extends Component {
       return e.dataType === "indicator";
     });
 
+    let exporting = {
+      buttons: {
+        contextButton: {
+          menuItems: [
+            {
+              textKey: "printChart",
+              onclick: function() {
+                this.print();
+              }
+            },
+            {
+              separator: true
+            },
+            {
+              textKey: "downloadPNG",
+              onclick: function() {
+                this.exportChart();
+              }
+            },
+            {
+              textKey: "downloadJPEG",
+              onclick: function() {
+                this.exportChart({
+                  type: "image/jpeg"
+                });
+              }
+            },
+            {
+              textKey: "downloadPDF",
+              onclick: function() {
+                this.exportChart({
+                  type: "application/pdf"
+                });
+              }
+            },
+            {
+              textKey: "downloadSVG",
+              onclick: function() {
+                this.exportChart({
+                  type: "image/svg+xml"
+                });
+              }
+            }
+          ]
+        }
+      }
+    };
     let myConfig;
 
     // console.log("new");
@@ -110,7 +157,8 @@ class BarChart extends Component {
             overflow: "justify"
           }
         },
-        series: ySeries
+        series: ySeries,
+        exporting: exporting
       };
     } else {
       let xCategories = [];
@@ -167,14 +215,19 @@ class BarChart extends Component {
             overflow: "justify"
           }
         },
-        series: ySeries
+        series: ySeries,
+        exporting: exporting
       };
     }
 
     return (
       <div>
         <ReactHighcharts config={myConfig} />
-        <button onClick={this.toggleGroupBy}>{this.state.groupByLabel}</button>
+        <div className="text-center">
+          <button className="btn btn-info" onClick={this.toggleGroupBy}>
+            {this.state.groupByLabel}
+          </button>
+        </div>
       </div>
     );
   }

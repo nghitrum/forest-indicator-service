@@ -1,27 +1,19 @@
-.first-column {
-  width: 30rem;
-  vertical-align: bottom;
+.highcharts-data-table table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  background: transparent;
+  min-width: 100%;
+  margin-top: 10px;
 }
-
-.header-rotate-90 {
-  /* Safari */
-  -webkit-transform: rotate(-90deg);
-
-  /* Firefox */
-  -moz-transform: rotate(-90deg);
-
-  /* IE */
-  -ms-transform: rotate(-90deg);
-
-  /* Opera */
-  -o-transform: rotate(-90deg);
-
-  /* Internet Explorer */
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+.highcharts-data-table td, .highcharts-data-table th {
+  font-family: sans-serif;
+  font-size: 10pt;
+  border: 1px solid white;
+  padding: 0.5em;
 }
-
-.header-label {
-  font-weight: bold;
-  padding-bottom: 7rem;
-  align-self: center;
+.highcharts-data-table tr:nth-child(even), .highcharts-data-table thead tr {
+  background: rgba(255, 255, 255, 0.3);
+}
+.highcharts-data-table tr:hover {
+  background: rgba(255, 255, 255, 0.7);
 }
