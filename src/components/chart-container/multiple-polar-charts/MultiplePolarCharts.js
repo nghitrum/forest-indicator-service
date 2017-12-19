@@ -6,92 +6,53 @@ import "./multiple-polar-charts.scss";
 import ReactHighcharts from "react-highcharts";
 require("highcharts-more")(ReactHighcharts.Highcharts);
 
-const config = {
+let config = {
+  title: {
+    text: ""
+  },
   chart: {
     polar: true,
     backgroundColor: "transparent"
   },
   xAxis: {
-    categories: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-      "Oct",
-      "Nov",
-      "Dec",
-      "Oct",
-      "Nov",
-      "Dec",
-      "Oct",
-      "Nov",
-      "Dec",
-      "Oct",
-      "Nov",
-      "Dec",
-      "Oct",
-      "Nov",
-      "Dec"
-    ]
+    categories: []
   },
   series: [
     {
-      data: [
-        29.9,
-        71.5,
-        106.4,
-        129.2,
-        144.0,
-        176.0,
-        135.6,
-        148.5,
-        216.4,
-        194.1,
-        95.6,
-        54.4,
-        194.1,
-        95.6,
-        54.4,
-        194.1,
-        95.6,
-        54.4,
-        194.1,
-        95.6,
-        54.4
-      ]
+      data: []
     }
   ]
 };
 
 class MultiplePolarCharts extends Component {
+  constructor(props) {
+    super(props);
+
+    console.log(this.props.options);
+  }
+
+  //Still WIP, dont touch
+
+  getScenarioEntries(options) {
+    let configs = [];
+    for (let i = 0; i < options.length; i++) {
+      if (options[i]["dataType"] === "scenario") {
+        let chartConfig = new Object(config);
+        chartConfig.title.text = "Scenario: " + options[i]["name"];
+        console.log(chartConfig);
+      }
+    }
+    return configs;
+  }
+
   render() {
-    return (
-      <div>
-        <div className="chart-wrapper">
-          <ReactHighcharts config={config} />
-        </div>
-        <div className="chart-wrapper">
-          <ReactHighcharts config={config} />
-        </div>
-        <div className="chart-wrapper">
-          <ReactHighcharts config={config} />
-        </div>
-        <div className="chart-wrapper">
-          <ReactHighcharts config={config} />
-        </div>
-        <div className="chart-wrapper">
-          <ReactHighcharts config={config} />
-        </div>
-      </div>
-    );
+    const values = this.props.values;
+    const options = this.props.options;
+
+    let basicConfigs = this.getScenarioEntries(this.props.options);
+    console.log(basicConfigs);
+
+    return <div />;
   }
 }
 

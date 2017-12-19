@@ -37,7 +37,15 @@ class ChartContainer extends Component {
       case "singlepolar":
         return <Chart />;
       case "manypolar":
-        return <MultiplePolarCharts />;
+        return (
+          <MultiplePolarCharts
+            values={this.props.valueData}
+            options={this.props.options}
+            scenarios={this.props.scenarios}
+            regionalLevel={this.props.regionalLevel}
+            region={this.props.region}
+          />
+        );
       case "bar":
         return (
           <BarChart
