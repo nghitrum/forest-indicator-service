@@ -14,7 +14,6 @@ class RightPanel extends Component {
         </h4>
 
         {item.indicators.map((indicator, index) => {
-          
           if (index === 0 && item.isMandatory) {
             // console.log(`MANDATORY: id of ${indicator.name} is ${indicator.id}`)
             return (
@@ -43,8 +42,7 @@ class RightPanel extends Component {
                 selectedOptions={this.props.selectedOptions}
               />
             );
-           
-          } 
+          }
           //console.log(index, index === 0 && item.isMandatory ? true : false),
         })}
       </div>
@@ -53,7 +51,7 @@ class RightPanel extends Component {
     // console.log('listItems:', listItems);
 
     return (
-      <div className="panel-container">
+      <div className="panel-container content-panel shadow-1">
         <h3 className="header-spacing-panels">
           {this.props.indicatorSelectionLabel}
         </h3>

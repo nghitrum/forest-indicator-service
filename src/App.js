@@ -420,7 +420,7 @@ class App extends Component {
             regionalLevel={this.state.regionalLevel}
             region={this.state.region}
           />
-          <div className="services text-center">
+          <div className="services text-center content-panel shadow-1">
             <a href="http://Metsämittari.fi">
               <h4>Metsämittari.fi portal</h4>
             </a>
@@ -445,7 +445,7 @@ class App extends Component {
             selectedOptions={this.state.selectedOptions}
           />
 
-          <div className="feedback">
+          <div className="feedback content-panel shadow-1">
             <Modal guidanceLabel={this.state.guidanceLabel} />
 
             <a href="mailto:metsamittari@luke.fi?Subject=Feedback%20about%20service">

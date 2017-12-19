@@ -73,7 +73,7 @@ class ChartContainer extends Component {
 
   render() {
     return (
-      <div className="chart-container">
+      <div className="chart-container content-panel shadow-1">
         <div className="chart-content">
           {this.RenderChart(this.state.chartType)}
         </div>
