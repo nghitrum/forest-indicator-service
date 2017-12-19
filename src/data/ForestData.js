@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie, getCookieName } from "../components/general/cookie.js";
+import { getCookie, getCookieName } from "../services/cookie.js";
 
 function getLanguage() {
   let language = getCookie(getCookieName());

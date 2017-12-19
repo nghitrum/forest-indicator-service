@@ -9,9 +9,10 @@ import LeftPanel from "./components/left-panel/LeftPanel";
 import ChartContainer from "./components/chart-container/ChartContainer";
 import Modal from "./components/general/Modal.js";
 
-import ForestData from "./data/ForestData";
+import DataBinding from "./data/DataBinding";
 
-import { getCookie, getCookieName } from "./components/general/cookie.js";
+import { getCookie, getCookieName } from "./services/cookie.js";
+import { getMelaTupaService } from "./services/utils.js";
 
 class App extends Component {
   constructor(props) {
@@ -69,49 +70,6 @@ class App extends Component {
     this.handleSelectedDataChange = this.handleSelectedDataChange.bind(this);
   }
 
-  bindRegionalLevelData() {
-    return new Promise((resolve, reject) => {
-      ForestData.getRegionLevels().then(function(result) {
-        resolve(result);
-      });
-    });
-  }
-
-  bindRegionData(regionalLevel) {
-    if (regionalLevel !== "") {
-      return new Promise((resolve, reject) => {
-        ForestData.getRegion(regionalLevel.value).then(function(result) {
-          resolve(result);
-        });
-      });
-    }
-  }
-
-  bindScenarioCollectionsData(region) {
-    let list = [];
-    region.scenarioCollections.map(element => {
-      list.push({
-        value: element.id,
-        label: element.name,
-        ...element
-      });
-    });
-    return list;
-  }
-
-  bindChartData(scenarioCollection, region) {
-    return new Promise((resolve, reject) => {
-      if (region !== null && scenarioCollection !== null) {
-        ForestData.getScenarionCollection(
-          scenarioCollection.id,
-          region.id
-        ).then(function(result) {
-          resolve(result[0]);
-        });
-      }
-    });
-  }
-
   handleLanguageChange(language) {
     this.setState({
       language: language.value
@@ -124,7 +82,7 @@ class App extends Component {
 
   handleRegionalLevelChange(regionalLevel) {
     let regionList = [];
-    this.bindRegionData(regionalLevel).then(result => {
+    DataBinding.bindRegionData(regionalLevel).then(result => {
       result.map(region => {
         regionList.push({
           value: region.id,
@@ -133,11 +91,11 @@ class App extends Component {
         });
       });
 
-      let scenarioCollectionList = this.bindScenarioCollectionsData(
+      let scenarioCollectionList = DataBinding.bindScenarioCollectionsData(
         regionList[0]
       );
 
-      this.bindChartData(scenarioCollectionList[0], regionList[0]).then(
+      DataBinding.bindChartData(scenarioCollectionList[0], regionList[0]).then(
         result => {
           this.setState({
             regionalLevel: regionalLevel,
@@ -158,27 +116,31 @@ class App extends Component {
 
   handleRegionChange(value) {
     if (value !== "") {
-      let scenarioCollectionList = this.bindScenarioCollectionsData(value);
+      let scenarioCollectionList = DataBinding.bindScenarioCollectionsData(
+        value
+      );
 
-      this.bindChartData(scenarioCollectionList[0], value).then(result => {
-        this.setState({
-          region: value,
-          scenarioCollection: scenarioCollectionList[0],
-          scenarioCollectionList: scenarioCollectionList,
+      DataBinding.bindChartData(scenarioCollectionList[0], value).then(
+        result => {
+          this.setState({
+            region: value,
+            scenarioCollection: scenarioCollectionList[0],
+            scenarioCollectionList: scenarioCollectionList,
 
-          scenarios: result.scenarios,
-          timePeriods: result.timePeriods,
-          indicatorCategories: result.indicatorCategories,
-          values: result.values
-        });
-        this.setState({ selectedOptions: this.getDefaultSelectedOptions() });
-      });
+            scenarios: result.scenarios,
+            timePeriods: result.timePeriods,
+            indicatorCategories: result.indicatorCategories,
+            values: result.values
+          });
+          this.setState({ selectedOptions: this.getDefaultSelectedOptions() });
+        }
+      );
     }
     // console.log(this.state.selectedOptions);
   }
 
   handleScenarioCollectionChange(value) {
-    this.bindChartData(value, this.state.region).then(result => {
+    DataBinding.bindChartData(value, this.state.region).then(result => {
       //  console.log(result.indicatorCategories);
       this.setState({
         scenarioCollection: value,
@@ -209,7 +171,7 @@ class App extends Component {
     });
 
     this.state.indicatorCategories.map(cat => {
-      if (cat.isMandatory == 1) {
+      if (cat.isMandatory.toString() === "1") {
         cat.indicators.map((indicator, index) => {
           // console.log(indicator);
           if (index === 0) {
@@ -333,7 +295,7 @@ class App extends Component {
 
   getAllTheData() {
     //  console.log(this.state.language);
-    this.bindRegionalLevelData().then(result => {
+    DataBinding.bindRegionalLevelData().then(result => {
       let regionalLevelList = [];
       result.map(element => {
         regionalLevelList.push({
@@ -344,7 +306,7 @@ class App extends Component {
       });
 
       let regionList = [];
-      this.bindRegionData(regionalLevelList[0]).then(result => {
+      DataBinding.bindRegionData(regionalLevelList[0]).then(result => {
         result.map(region => {
           regionList.push({
             value: region.id,
@@ -353,37 +315,38 @@ class App extends Component {
           });
         });
 
-        let scenarioCollectionList = this.bindScenarioCollectionsData(
+        let scenarioCollectionList = DataBinding.bindScenarioCollectionsData(
           regionList[0]
         );
 
-        this.bindChartData(scenarioCollectionList[0], regionList[0]).then(
-          result => {
-            // console.log("getAllTheData");
-            this.setState({
-              regionalLevelList: regionalLevelList,
-              regionalLevel: regionalLevelList[0],
-              regionList: regionList,
-              region: regionList[0],
-              scenarioCollectionList: scenarioCollectionList,
-              scenarioCollection: scenarioCollectionList[0],
-              scenarios: result.scenarios,
-              indicatorCategories: result.indicatorCategories,
-              timePeriods: result.timePeriods,
-              values: result.values
-            });
-            this.setState({
-              selectedOptions: this.getDefaultSelectedOptions()
-            });
-          }
-        );
+        DataBinding.bindChartData(
+          scenarioCollectionList[0],
+          regionList[0]
+        ).then(result => {
+          // console.log("getAllTheData");
+          this.setState({
+            regionalLevelList: regionalLevelList,
+            regionalLevel: regionalLevelList[0],
+            regionList: regionList,
+            region: regionList[0],
+            scenarioCollectionList: scenarioCollectionList,
+            scenarioCollection: scenarioCollectionList[0],
+            scenarios: result.scenarios,
+            indicatorCategories: result.indicatorCategories,
+            timePeriods: result.timePeriods,
+            values: result.values
+          });
+          this.setState({
+            selectedOptions: this.getDefaultSelectedOptions()
+          });
+        });
       });
     });
   }
 
   getAllTheLabel() {
     let cookie = getCookie(getCookieName());
-    if (cookie == 1) {
+    if (cookie === "1") {
       this.setState({
         scenarioSelectionLabel: "Scenario Selection",
         languageLabel: "Language",
@@ -412,18 +375,12 @@ class App extends Component {
     }
   }
 
-  // componentWillReceiveProps() {
-  //   this.getAllTheLabel();
-  //   this.getAllTheData();
-  // }
-
   componentDidMount() {
     this.getAllTheLabel();
     this.getAllTheData();
   }
 
   render() {
-    // console.log(this.state.selectedOptions);
     return (
       <div className="container-fluid App">
         <Header />
@@ -463,6 +420,21 @@ class App extends Component {
             regionalLevel={this.state.regionalLevel}
             region={this.state.region}
           />
+          <div className="services text-center">
+            <a href="http://Metsämittari.fi">
+              <h4>Metsämittari.fi portal</h4>
+            </a>
+            <a
+              href={getMelaTupaService(
+                this.state.selectedOptions,
+                this.state.region,
+                this.state.scenarioCollection,
+                this.state.language
+              )}
+            >
+              <h4>MELATuPa service</h4>
+            </a>
+          </div>
         </div>
 
         <div className="col-lg-2">
@@ -474,11 +446,7 @@ class App extends Component {
           />
 
           <div className="feedback">
-            <a>
-              <h4></h4>
-            </a>
-
-            <Modal guidanceLabel={this.state.guidanceLabel}/>
+            <Modal guidanceLabel={this.state.guidanceLabel} />
 
             <a href="mailto:metsamittari@luke.fi?Subject=Feedback%20about%20service">
               <h4>{this.state.feedbackLabel}</h4>
