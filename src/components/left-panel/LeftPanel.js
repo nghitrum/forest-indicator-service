@@ -35,7 +35,7 @@ class LeftPanel extends Component {
     const selectedDataChange = this.props.handleSelectedDataChange;
 
     return (
-      <div className="leftpanel-container">
+      <div className="leftpanel-container content-panel shadow-1">
         <div className="language-select">
           <Language
             language={language}
