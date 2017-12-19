@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 
 import "./styling.scss";
-import {
-  changeInputBackgroundColor,
-  setCheckedBackgroundColor
-} from "./utils.js";
 
 class Checkbox extends Component {
   constructor(props) {
@@ -16,12 +12,6 @@ class Checkbox extends Component {
   }
 
   toggleChange = event => {
-    // Change style by jQuery
-    if (this.props.dataType === "timePeriod") {
-      changeInputBackgroundColor();
-      setCheckedBackgroundColor(event.target.name);
-    }
-
     let check = this.props.selectedDataChange({
       dataType: this.props.dataType,
       name: event.target.name,
@@ -34,10 +24,6 @@ class Checkbox extends Component {
       isChecked: check
     });
   };
-
-  // componentDidMount() {
-  //   // setCheckedBackgroundColor(this.props.name);
-  // }
 
   render() {
     if (this.props.selectedOptions) {

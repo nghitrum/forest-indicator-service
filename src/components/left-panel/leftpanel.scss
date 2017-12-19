@@ -1,26 +1,19 @@
-
-
-h3, h4{
-    color: rgb(50, 63, 160);
-    font-weight: bold;
+h3,
+h4 {
+  color: rgb(50, 63, 160);
+  font-weight: bold;
 }
 
-label{
-    color: rgb(50, 63, 160);
+label {
+  color: rgb(50, 63, 160);
 }
 
-.header-spacing-panels{
-    padding-block-start: 1.75rem;
+.header-spacing-panels {
+  padding-block-start: 1.75rem;
 }
 
-.region-level{
-    margin-top: 5rem;
-}
-
-.region{
-    margin-top: 2rem;
-}
-
-.timeline{
-    margin-top: 3rem;
+.region-level,
+.region,
+.timeline {
+  margin-top: 2rem;
 }

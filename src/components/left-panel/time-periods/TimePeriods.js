@@ -13,6 +13,7 @@ class TimePeriods extends Component {
         selectedDataChange={this.props.selectedDataChange}
         dataType="timePeriod"
         checked={index === 0 ? true : false}
+        selectedOptions={this.props.selectedOptions}
       />
     ));
     return (

@@ -13,6 +13,7 @@ class Scenarios extends Component {
         selectedDataChange={this.props.selectedDataChange}
         dataType="scenario"
         checked={index === 0 ? true : false}
+        selectedOptions={this.props.selectedOptions}
       />
     ));
     return (

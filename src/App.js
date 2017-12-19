@@ -71,13 +71,15 @@ class App extends Component {
   }
 
   handleLanguageChange(language) {
+    // console.log("language change");
     this.setState({
       language: language.value
     });
 
     // console.log(this.state);
     this.getAllTheLabel();
-    this.getAllTheData();
+    this.getAllTheData(false);
+    // console.log("after", this.state.selectedOptions);
   }
 
   handleRegionalLevelChange(regionalLevel) {
@@ -184,6 +186,7 @@ class App extends Component {
         });
       }
     });
+    // console.log("the list", list);
     return list;
   }
 
@@ -293,7 +296,7 @@ class App extends Component {
     return check;
   }
 
-  getAllTheData() {
+  getAllTheData(isFirst) {
     //  console.log(this.state.language);
     DataBinding.bindRegionalLevelData().then(result => {
       let regionalLevelList = [];
@@ -323,22 +326,41 @@ class App extends Component {
           scenarioCollectionList[0],
           regionList[0]
         ).then(result => {
-          // console.log("getAllTheData");
-          this.setState({
-            regionalLevelList: regionalLevelList,
-            regionalLevel: regionalLevelList[0],
-            regionList: regionList,
-            region: regionList[0],
-            scenarioCollectionList: scenarioCollectionList,
-            scenarioCollection: scenarioCollectionList[0],
-            scenarios: result.scenarios,
-            indicatorCategories: result.indicatorCategories,
-            timePeriods: result.timePeriods,
-            values: result.values
-          });
-          this.setState({
-            selectedOptions: this.getDefaultSelectedOptions()
-          });
+          if (isFirst === true) {
+            this.setState({
+              regionalLevelList: regionalLevelList,
+              regionalLevel: regionalLevelList[0],
+              regionList: regionList,
+              region: regionList[0],
+              scenarioCollectionList: scenarioCollectionList,
+              scenarioCollection: scenarioCollectionList[0],
+              scenarios: result.scenarios,
+              indicatorCategories: result.indicatorCategories,
+              timePeriods: result.timePeriods,
+              values: result.values
+            });
+            this.setState({
+              selectedOptions: this.getDefaultSelectedOptions()
+            });
+          } else {
+            this.setState({
+              selectedOptions: this.getDefaultSelectedOptions()
+            });
+
+            console.log("after", this.state.selectedOptions);
+            this.setState({
+              regionalLevelList: regionalLevelList,
+              regionalLevel: regionalLevelList[0],
+              regionList: regionList,
+              region: regionList[0],
+              scenarioCollectionList: scenarioCollectionList,
+              scenarioCollection: scenarioCollectionList[0],
+              scenarios: result.scenarios,
+              indicatorCategories: result.indicatorCategories,
+              timePeriods: result.timePeriods,
+              values: result.values
+            });
+          }
         });
       });
     });
@@ -377,10 +399,11 @@ class App extends Component {
 
   componentDidMount() {
     this.getAllTheLabel();
-    this.getAllTheData();
+    this.getAllTheData(true);
   }
 
   render() {
+    // console.log(this.state);
     return (
       <div className="container-fluid App">
         <Header />
@@ -402,6 +425,7 @@ class App extends Component {
             scenarios={this.state.scenarios}
             timePeriods={this.state.timePeriods}
             handleSelectedDataChange={this.handleSelectedDataChange}
+            selectedOptions={this.state.selectedOptions}
             scenarioSelectionLabel={this.state.scenarioSelectionLabel}
             languageLabel={this.state.languageLabel}
             regionalLevelLabel={this.state.regionalLevelLabel}
