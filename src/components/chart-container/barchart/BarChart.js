@@ -4,6 +4,7 @@ import "../../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 import ReactHighcharts from "react-highcharts";
 require("highcharts-more")(ReactHighcharts.Highcharts);
+require("highcharts-exporting")(ReactHighcharts.Highcharts);
 
 class BarChart extends Component {
   constructor(props) {
