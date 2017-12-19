@@ -5,7 +5,7 @@ import {
   setCookie,
   getCookieName,
   getCookieDuration
-} from "../../general/cookie.js";
+} from "../../../services/cookie.js";
 
 class Language extends Component {
   constructor(props) {
