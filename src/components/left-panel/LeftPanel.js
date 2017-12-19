@@ -80,6 +80,7 @@ class LeftPanel extends Component {
             scenarios={scenarios}
             selectedDataChange={selectedDataChange}
             scenariosLabel={this.props.scenariosLabel}
+            selectedOptions={this.props.selectedOptions}
           />
         </div>
         <div className="timeline">
@@ -87,6 +88,7 @@ class LeftPanel extends Component {
             timePeriods={timePeriods}
             selectedDataChange={selectedDataChange}
             timePeriodsLabel={this.props.timePeriodsLabel}
+            selectedOptions={this.props.selectedOptions}
           />
         </div>
       </div>
