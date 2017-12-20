@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 
-import Chart from "./chart/Chart";
-import MultiplePolarCharts from "./multiple-polar-charts/MultiplePolarCharts";
 import BarChart from "./barchart/BarChart";
 import TableChart from "./table-chart/TableChart";
 import ChartControls from "./chart-controls/ChartControls";
@@ -15,7 +13,7 @@ class ChartContainer extends Component {
     this.setScenarioId = this.setScenarioId.bind(this);
 
     this.state = {
-      chartType: "singlepolar"
+      chartType: "bar"
     };
 
     this.changeChartType = this.changeChartType.bind(this);
@@ -34,18 +32,6 @@ class ChartContainer extends Component {
 
   RenderChart(chartType) {
     switch (chartType) {
-      case "singlepolar":
-        return <Chart />;
-      case "manypolar":
-        return (
-          <MultiplePolarCharts
-            values={this.props.valueData}
-            options={this.props.options}
-            scenarios={this.props.scenarios}
-            regionalLevel={this.props.regionalLevel}
-            region={this.props.region}
-          />
-        );
       case "bar":
         return (
           <BarChart
@@ -67,7 +53,7 @@ class ChartContainer extends Component {
           />
         );
       default:
-        return <Chart />;
+        return <BarChart />;
     }
   }
 
