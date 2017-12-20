@@ -28,20 +28,6 @@ class ChartControls extends Component {
     return (
       <div className="control-wrapper">
         <div className="chart-control-buttons">
-          <button
-            className="btn"
-            value="singlepolar"
-            onClick={this.changeChartType}
-          >
-            Polar chart (Single)
-          </button>
-          <button
-            className="btn"
-            value="manypolar"
-            onClick={this.changeChartType}
-          >
-            Polar chart (Many)
-          </button>
           <button className="btn" value="bar" onClick={this.changeChartType}>
             Bar chart
           </button>
